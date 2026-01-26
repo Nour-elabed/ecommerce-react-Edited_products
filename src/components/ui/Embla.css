@@ -1,0 +1,105 @@
+.embla {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.embla__container {
+  display: flex;
+  height: 100%;
+}
+
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.embla__slide__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.embla__dots {
+  position: absolute;
+  bottom: 16px;             
+  left: 50%;                
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;           
+}
+.embla__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;     
+  background-color: black; 
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);    
+  opacity: 0.7;              
+  transition: opacity 0.8s;    
+}
+.embla__dot.is-selected {
+  width: 50px;                     
+  height: 10px;
+  background-color: black;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+   border-radius: 6px; 
+  
+}
+.embla__dot:hover {
+  transform: scale(1.05);
+  
+}
+@media (max-width: 640px) {
+  .embla__dots {
+    left: 16px;              
+    transform: none;      
+    justify-content: flex-start;
+  }
+  @media (max-width: 640px) {
+  .scroll-carousel__slide {
+    min-width: calc(100% - 32px);
+  }
+  
+  .scroll-carousel {
+    padding: 0 16px;
+  }
+  
+  .scroll-carousel__controls {
+    padding: 0 16px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .scroll-carousel__slide {
+    min-width: calc(50% - 36px); 
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .scroll-carousel__slide {
+    min-width: calc(33.333% - 32px);
+  }
+}
+
+@media (min-width: 1025px) {
+  .scroll-carousel__slide {
+    min-width: calc(25% - 36px); 
+  }
+}
+
+@media (min-width: 768px) {
+  .scroll-carousel {
+    padding: 0 40px;
+  }
+  
+  .scroll-carousel__controls {
+    padding: 0 40px;
+  }
+}
+}
