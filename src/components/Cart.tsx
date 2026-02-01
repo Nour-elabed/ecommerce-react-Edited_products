@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/context/useCart";
 
 const Cart = () => {
-  const { quantity, setQuantity, subtotal, tax, total, Price } = useCart();
+  const { quantity, setQuantity, subtotal, tax, total } = useCart();
 
   const sizes = ["S", "M", "L", "XL", "2XL"];
   const [selected, setSelected] = useState(sizes[0]);
-  const [count, setCount] = useState(quantity); // sync with cart context
+  const [count, setCount] = useState(quantity);
 
-  // Keep local count in sync with global quantity
   useEffect(() => {
     setQuantity(count);
   }, [count, setQuantity]);
@@ -36,8 +35,12 @@ const Cart = () => {
         </div>
 
         <div className="flex flex-col items-end gap-1">
-          <span className="text-md font-semibold">${Price}</span>
-          <span className="text-sm text-gray-400 line-through">$199.99</span>
+          <span className="text-md font-semibold">
+            ${subtotal.toFixed(2)}
+          </span>
+          <span className="text-sm text-gray-400 line-through">
+            ${subtotal.toFixed(2)}
+          </span>
         </div>
       </div>
 
@@ -48,16 +51,17 @@ const Cart = () => {
           {sizes.map((size) => (
             <button
               key={size}
+              onClick={() => setSelected(size)}
               className={`
-                w-12 h-8 border rounded-md text-gray-600 flex items-center justify-center
-                transition-colors duration-150 cursor-pointer
+                w-12 h-8 border rounded-md text-gray-600
+                flex items-center justify-center
+                transition-colors duration-150
                 ${
                   selected === size
                     ? "bg-blue-400 text-white font-semibold border-blue-500"
                     : "border-gray-300 hover:border-gray-500"
                 }
               `}
-              onClick={() => setSelected(size)}
             >
               {size}
             </button>
@@ -65,50 +69,69 @@ const Cart = () => {
         </div>
       </div>
 
-      {/* Counter + Add to Cart */}
-      <div className="flex items-center justify-between mt-4">
-        {/* Quantity Counter */}
-        <div className="bg-gray-100 flex items-center p-1 rounded-full w-24">
-          <button
-            onClick={handleDecrement}
-            className="bg-white flex items-center justify-center rounded-full border w-7 h-7 text-lg font-semibold cursor-pointer"
-          >
-            -
-          </button>
+<div className="grid grid-cols-2 gap-4 sm:flex  sm:items-center sm:justify-between mt-4">
+  <div className="bg-gray-100 flex items-center px-2 py-1 rounded-full w-full sm:w-28 justify-between">
+    <button
+      onClick={handleDecrement}
+      className="bg-white rounded-full border w-6 h-6 text-sm font-semibold"
+    >
+      -
+    </button>
 
-          <span className="flex-1 text-center font-semibold text-sm">
-            {count}
-          </span>
+    <span className="font-semibold text-sm">{count}</span>
 
-          <button
-            onClick={handleIncrement}
-            className="bg-white flex items-center justify-center rounded-full border w-7 h-7 text-lg font-semibold cursor-pointer"
-          >
-            +
-          </button>
+    <button
+      onClick={handleIncrement}
+      className="bg-white rounded-full border w-6 h-6 text-sm font-semibold"
+    >
+      +
+    </button>
+  </div>
+
+  <button
+    className="
+      flex items-center justify-center gap-2
+      rounded-full
+      px-6 py-2
+      sm:px-6 sm:py-2.5
+      bg-black text-white text-sm font-semibold
+      shadow-md
+      active:scale-95
+      sm:hover:bg-black/80 sm:hover:shadow-lg sm:hover:scale-105
+      transition-all duration-200
+    "
+  >
+    <img
+      src="/assets/icons/path.svg"
+      alt="cart"
+      className="w-4 h-4"
+    />
+    Add to cart
+  </button>
+</div>
+
+      <div className="hidden md:block mt-6 rounded-lg border p-4 text-sm space-y-2">
+        <div className="flex justify-between">
+          <span className="text-gray-500">Quantity</span>
+          <span className="font-semibold">{quantity}</span>
         </div>
 
-        <button className="
-            flex items-end gap-2 rounded-full px-6 py-3
-            bg-black text-white font-semibold shadow-md cursor-pointer
-            hover:bg-black/80 hover:shadow-lg hover:scale-105
-            transition-all duration-200
-        ">
-          <img
-            src="/assets/icons/path.svg"
-            alt="cart"
-            className="w-5 h-5 "
-          />
-          Add to cart
-        </button>
-      </div>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Subtotal</span>
+          <span className="font-semibold">${subtotal.toFixed(2)}</span>
+        </div>
 
-      {/* Summary */}
-      <div className="mt-4 text-sm">
-        <p>Quantity: {quantity}</p>
-        <p>Subtotal: ${subtotal.toFixed(2)}</p>
-        <p>Tax: ${tax.toFixed(2)}</p>
-        <p>Total: ${total.toFixed(2)}</p>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Tax</span>
+          <span className="font-semibold">${tax.toFixed(2)}</span>
+        </div>
+
+        <div className="border-t my-2" />
+
+        <div className="flex justify-between text-base">
+          <span className="font-semibold">Total</span>
+          <span className="font-bold">${total.toFixed(2)}</span>
+        </div>
       </div>
     </div>
   );

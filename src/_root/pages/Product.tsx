@@ -1,5 +1,6 @@
 
 import ProductContent from "@/components/ProductContent"
+import ProductDetails from "@/components/ProductDetails"
 import { CartProvider } from "@/context/CartContext"
 const Product = () => {
   return (
@@ -7,6 +8,7 @@ const Product = () => {
          <CartProvider>
 
       <ProductContent/>
+      <ProductDetails/>
       </CartProvider>
     </div>
   )
