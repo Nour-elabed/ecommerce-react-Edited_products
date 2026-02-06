@@ -12,14 +12,13 @@ const keywordsData: KeywordsProps[] = [
 ]
 export const KeywordSection: React.FC = () => {
   return (
-    <section className="p-6 font-sans">
-      <h2 className="mb-4 text-2xl font-bold text-slate-900">Keywords</h2>
+    <section className="p-4 font-sans sm:w-150">
       
       <div className="flex flex-wrap gap-3">
         {keywordsData.map((keyword) => (
           <button
             key={keyword.id}
-            className="group flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 transition-all hover:bg-slate-50 active:scale-95"
+            className="group flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 transition-all hover:bg-slate-50 active:scale-95 cursor-pointer"
           >
             <Sparkles
               size={16}

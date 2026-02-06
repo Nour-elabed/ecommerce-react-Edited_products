@@ -4,6 +4,7 @@ import Shop from './_root/pages/Shop'
 import Product from './_root/pages/Product'
 import './index.css'
 import RootLayout from './_root/pages/RootLayout'
+import Login from './_root/pages/Login'
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/product' element={<Product />} />
+        <Route path='/login' element={<Login/>}  />
       </Route>
     </Routes>
   )
