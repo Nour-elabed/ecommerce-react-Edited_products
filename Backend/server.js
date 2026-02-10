@@ -1,13 +1,28 @@
 import express from 'express';
+import mongoose from 'mongoose';
+//import multer from 'multer';
+//import { storage } from './config/multer.js';
 //import router from './route.js';
 const app = express();
+MONGODB_URI='mongodb+srv://nour:<nour123>@cluster0.opfx1yj.mongodb.net/Ecommerce'
+mongoose.connect(MONGODB_URI.then(()=>{
+  console.log('Connected to MongoDB');
+}))
+
+//const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
+ // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
 
-app.use(express.urlencoded({ extended: true })) // middleware to parse urlencoded data from the request body (not available in express5) : app.use(express.urlencoded())
+
+/* app.use(express.urlencoded({ extended: true }))
+app.use('/uploads', express.static('uploads')) */
+ // middleware to parse urlencoded data from the request body (not available in express5) : app.use(express.urlencoded())
 /* app.use('/public',express.static('public')) // serve static files from the public directory (css js images) : we can also use app.use('/static', express.static('public')) to serve static files from a different path (http://localhost:3000/static/css/style.css)
 app.use('/images',express.static('images'))
  */
 //set ejs as the view engine
+//app.use(upload.single('image'))
+ // parse data middleware to handle file uploads (not available in express5) : app.use(upload.single('file')) : this will handle file uploads from a form with an input field named 'file' (send from client to server)
 app.set('view engine', 'ejs') // we can also set the views directory if we want to use a different directory for our views (not available in express5) : app.set('views', path.join(__dirname, 'views'))
 
 app.use((req,res,next)=>{  //'/welcome': middlewre for that path 
@@ -31,10 +46,11 @@ app.get('/', (req, res) => {// create route for the root path
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
 });// we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 
 
-app.post('/form', (req,res)=>{
+/* app.post('/form', (req,res)=>{
   console.log(req.body) // we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
-  res.send('Form received successfully')
-}) // route to handle form submission (send from client to server)
+  console.log(req.file)
+  res.send('Form received successfully') */
+//}) // route to handle form submission (send from client to server)
 
 /* app.get('/welcome', (req, res) => {// create route for the root path
   res.send('Hello worldd and welcome!');
