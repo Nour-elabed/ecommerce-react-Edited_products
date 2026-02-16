@@ -4,10 +4,12 @@ import mongoose from 'mongoose';
 //import { storage } from './config/multer.js';
 //import router from './route.js';
 const app = express();
-MONGODB_URI='mongodb+srv://nour:<nour123>@cluster0.opfx1yj.mongodb.net/Ecommerce'
-mongoose.connect(MONGODB_URI.then(()=>{
+const MONGODB_URI='mongodb+srv://nour:nour123@cluster0.opfx1yj.mongodb.net/Ecommerce';
+await mongoose.connect(MONGODB_URI).then(()=>{// we can also use async await to connect to the database first then start server (not available in express5) : await mongoose.connect(MONGODB_URI)
   console.log('Connected to MongoDB');
-}))
+}).catch((err)=>{
+  console.error('Error connecting to MongoDB',err);
+});
 
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
