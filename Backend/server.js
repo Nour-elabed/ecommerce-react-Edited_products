@@ -47,16 +47,28 @@ app.get('/', (req, res) => {// create route for the root path
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
 });// we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 
 //creation and saving data in mongodb
-app.post('/person',async (req,res)=>{
-  const{name,age,email}=req.body //destructure the request body to get the name age and email of the person (send from client to server)
-  const newPerson=new Person({name,age,email}) // create a new person using the Person model (send from client to server)
-  await newPerson.save() 
-  console.log(newPerson)//we use await  They prevent applications from freezing during long-running tasks by allowing the main thread to continue working, ultimately improving responsiveness. to manage asynchronous operations (like API calls or file reading)
-   // save the person to the database (send from client to server)
-  res.send({message:'Person created successfully'})// route to handle form submission (send from client to server) : we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
-})
+app.post('/person', async (req, res) => {
+  try {
+    const { name, age, email } = req.body;
+
+    const newPerson = new Person({ name, age, email });
+    await newPerson.save();
+
+    console.log(newPerson);
+
+    res.send({ message: 'Person createdsuccessfully' });
+  } catch (error) {
+    console.error(error);
+   res.send(error.message) 
+   
+    // we can also send a custom error message to the client (not available in express5) : res.status(500).send({ error: 'An error occurred while creating the person' })
+  }
+});
+
+  
 //update data in mongodb
 app.put('/person',async (req,res)=>{
+ 
   const{id}=req.body 
   const personData= await Person.findByIdAndUpdate(id,{age:40}) // find the person by id and update their age to 30 (send from client to server) : we use {new:true} to return the updated document instead of the original document (not available in express5) : Person.findByIdAndUpdate(id,{age:30},{new:true})
 
@@ -70,6 +82,11 @@ findById() is a helper function that finds a single document by its unique _id f
   res.send({message:'Person updated successfully'})// route to handle form submission (send from client to server) : we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
 })
 //delete data from mongodb
+app.delete('/person/:id',async (req,res)=>{
+  const{id}=req.params
+  await Person.findByIdAndDelete(id) // find the person by id and delete them from the database (send from client to server)
+  res.send({message:'Person deleted successfully'})// route to handle form submission (send from client to server) : we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
+})
 
 /* app.post('/form', (req,res)=>{
   console.log(req.body) // we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
