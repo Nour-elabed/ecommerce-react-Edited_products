@@ -1,19 +1,14 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import { connectDB } from './config/db.js';
 //import multer from 'multer';
 //import { storage } from './config/multer.js';
 //import router from './route.js';
 const app = express();
-const MONGODB_URI='mongodb+srv://nour:nour123@cluster0.opfx1yj.mongodb.net/Ecommerce';
-await mongoose.connect(MONGODB_URI).then(()=>{// we can also use async await to connect to the database first then start server (not available in express5) : await mongoose.connect(MONGODB_URI)
-  console.log('Connected to MongoDB');
-}).catch((err)=>{
-  console.error('Error connecting to MongoDB',err);
-});
 
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
+await connectDB()
 
 
 /* app.use(express.urlencoded({ extended: true }))
@@ -44,10 +39,14 @@ app.use((req,res,next)=>{
 })
 app.get('/', (req, res) => {// create route for the root path
   res.send('Hello worldd and welcome!');
+
 /* const username='nour elabed'
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
 });// we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 
-
+app.post('/person',express.json(),(req,res)=>{
+  console.log(req.body)
+  res.send({message:'Person created successfully',data:req.body})
+})
 /* app.post('/form', (req,res)=>{
   console.log(req.body) // we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
   console.log(req.file)
