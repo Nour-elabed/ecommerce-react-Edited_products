@@ -1,6 +1,7 @@
 import express from 'express';
-import { connectDB } from './config/db.js';
-import {Person} from './models/Person.js';
+import cookieParser from 'cookie-parser';
+//import { connectDB } from './config/db.js';
+//import {Person} from './models/Person.js';
 //import multer from 'multer';
 //import { storage } from './config/multer.js';
 //import router from './route.js';
@@ -9,8 +10,9 @@ const app = express();
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
-await connectDB()
-app.use(express.json());
+app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
+//await connectDB()
+//app.use(express.json());
 
 
 
@@ -41,13 +43,25 @@ app.use((req,res,next)=>{
 //we can use 3rd party middleware (cookie parser body parser) or we can create our own middleware like this to log the time of the request and the end of the request (after response is sent)
 })
 app.get('/', (req, res) => {// create route for the root path
-  res.send('Hello worldd and welcome!');
+  res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
+  res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
 
+});
+app.get('/remove-cookie',(req,res)=>{
+  res.clearCookie('name') // clear a cookie from the response headers (not available in express5) : res.clearCookie('name', { options }) : we can also set options for the cookie like path, domain, etc. (not available in express5) : res.clearCookie('name', { path: '/welcome' })
+  res.send('Cookie removed successfully')
+})
+
+  
+app.get('/fetch',(req,res)=>{
+  console.log(req.cookies) // access cookies from the request headers (not available in express5) : req.cookies : we can also access signed cookies if we use cookie-parser with a secret (not available in express5) : req.signedCookies
+  res.send('Cookies received successfully(api called)')
+})
 /* const username='nour elabed'
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
-});// we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 
+// we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 
 //creation and saving data in mongodb
-app.post('/person', async (req, res) => {
+/* app.post('/person', async (req, res) => {
   try {
     const { name, age, email } = req.body;
 
@@ -63,14 +77,14 @@ app.post('/person', async (req, res) => {
    
     // we can also send a custom error message to the client (not available in express5) : res.status(500).send({ error: 'An error occurred while creating the person' })
   }
-});
+}); */
 
   
 //update data in mongodb
-app.put('/person',async (req,res)=>{
+/* app.put('/person',async (req,res)=>{
  
   const{id}=req.body 
-  const personData= await Person.findByIdAndUpdate(id,{age:40}) // find the person by id and update their age to 30 (send from client to server) : we use {new:true} to return the updated document instead of the original document (not available in express5) : Person.findByIdAndUpdate(id,{age:30},{new:true})
+  const personData= await Person.findByIdAndUpdate(id,{age:40}) */ // find the person by id and update their age to 30 (send from client to server) : we use {new:true} to return the updated document instead of the original document (not available in express5) : Person.findByIdAndUpdate(id,{age:30},{new:true})
 
 /*   personData.age=30
   await personData.save() */
@@ -78,16 +92,16 @@ app.put('/person',async (req,res)=>{
 findOne() returns a single document (the first one found) that matches the query criteria.
 findById() is a helper function that finds a single document by its unique _id field.  */
   // find the person in the database by email (send from client to server)
-  console.log(personData)
+  /* console.log(personData)
   res.send({message:'Person updated successfully'})// route to handle form submission (send from client to server) : we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
-})
+}) */
 //delete data from mongodb
-app.delete('/person/:id',async (req,res)=>{
+/* app.delete('/person/:id',async (req,res)=>{
   const{id}=req.params
   await Person.findByIdAndDelete(id) // find the person by id and delete them from the database (send from client to server)
   res.send({message:'Person deleted successfully'})// route to handle form submission (send from client to server) : we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
 })
-
+ */
 /* app.post('/form', (req,res)=>{
   console.log(req.body) // we need to use express.json() middleware to parse the request body (not available in express5) : app.use(express.json())
   console.log(req.file)
