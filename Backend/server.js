@@ -28,7 +28,7 @@ app.use('/images',express.static('images'))
 app.set('view engine', 'ejs') // we can also set the views directory if we want to use a different directory for our views (not available in express5) : app.set('views', path.join(__dirname, 'views'))
 
 app.use((req,res,next)=>{  //'/welcome': middlewre for that path 
-  console.log('new request received at '+Date.now()) // log the time of the request
+  console.log('new request received at : '+Date.now()) // log the time of the request
   next() // call next middleware or route handler
 })//middleware to log incoming requests
 
@@ -37,12 +37,12 @@ app.use((req,res,next)=>{
   // this will be executed after the first middleware
   res.on('finish',()=>{
     console.log('End');
-    
+    // this will be executed after the response is sent to the client (after the request is finished)
   })
-  next()
+  next() // call next middleware or route handler
 //we can use 3rd party middleware (cookie parser body parser) or we can create our own middleware like this to log the time of the request and the end of the request (after response is sent)
 })
-app.get('/', (req, res) => {// create route for the root path
+app.get('/', (req, res) => {// create route for the root path 
   res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
   res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
 
@@ -55,7 +55,7 @@ app.get('/remove-cookie',(req,res)=>{
   
 app.get('/fetch',(req,res)=>{
   console.log(req.cookies) // access cookies from the request headers (not available in express5) : req.cookies : we can also access signed cookies if we use cookie-parser with a secret (not available in express5) : req.signedCookies
-  res.send('Cookies received successfully(api called)')
+  res.send('Cookies received successfully(api called)') 
 })
 /* const username='nour elabed'
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
