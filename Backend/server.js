@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 //import { connectDB } from './config/db.js';
 //import {Person} from './models/Person.js';
 //import multer from 'multer';
@@ -13,7 +14,12 @@ const PORT = 3000;
 app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
 //await connectDB()
 //app.use(express.json());
-
+app.use(session({
+  secret: 'my-secret-key', // secret key to sign the session ID cookie (not available in express5) : app.use(session({ secret:
+  resave: false, // whether to save the session back to the session store even if it was never modified during the request (not available in express5) : app.use(session({ resave: false }))
+  saveUninitialized: false, // whether to save uninitialized sessions to the session store (not available in express5) : app.use(session({ saveUninitialized: false }))
+  // middleware to handle sessions (not available in express5) : app.use(session({ secret: 'my-secret-key', resave: false, saveUninitialized: false })) 
+}))
 
 
 /* app.use(express.urlencoded({ extended: true }))
@@ -43,20 +49,27 @@ app.use((req,res,next)=>{
 //we can use 3rd party middleware (cookie parser body parser) or we can create our own middleware like this to log the time of the request and the end of the request (after response is sent)
 })
 app.get('/', (req, res) => {// create route for the root path 
-  res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
+ // res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
   res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
-
 });
-app.get('/remove-cookie',(req,res)=>{
+app.get('/visit', (req, res) => {
+  if (req.session.visitCount) {
+    req.session.visitCount++  // increment the visit count in the session
+  } else {
+    req.session.visitCount = 1 // initialize the visit count in the session
+  }  
+  res.send(`You have visited this page ${req.session.visitCount} times.`);
+}) // route to track the number of visits to the page using sessions (not available in express5) : app.get('/visit', (req, res) => { if (req.session.visitCount) { req.session.visitCount++ } else { req.session.visitCount = 1 } res.send(`You have visited this page ${req.session.visitCount} times.`) })
+/* app.get('/remove-cookie',(req,res)=>{
   res.clearCookie('name') // clear a cookie from the response headers (not available in express5) : res.clearCookie('name', { options }) : we can also set options for the cookie like path, domain, etc. (not available in express5) : res.clearCookie('name', { path: '/welcome' })
   res.send('Cookie removed successfully')
-})
+}) */
 
   
-app.get('/fetch',(req,res)=>{
+/* app.get('/fetch',(req,res)=>{
   console.log(req.cookies) // access cookies from the request headers (not available in express5) : req.cookies : we can also access signed cookies if we use cookie-parser with a secret (not available in express5) : req.signedCookies
   res.send('Cookies received successfully(api called)') 
-})
+}) */
 /* const username='nour elabed'
   res.render('index',{username}) */ // render the index.ejs view and pass the username variable to it
 // we can use pug or handlebars as view engine instead of ejs render html file to display dynamic content 

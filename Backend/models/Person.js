@@ -13,7 +13,7 @@ const personSchema= new mongoose.Schema({
     type: String,
     required: true,
     unique: true, // we use unique:true to ensure that each email is unique in the database (not available in express5) : we can also use mongoose-unique-validator plugin to validate the uniqueness of the email field if we delete people collection and run post req again in the database then we will get error of duplicate collection in the 2nd attempt of sending
-  },
+  }
   userOrder: { //An order is a record of something a user wants to buy or has bought.
     // we can also use an array of objects to store multiple orders for a user (not available in express5) : userOrder: [{ type: Object }] or we can use a separate Order model and reference it in the Person model (not available in express5) : userOrder: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }]
     type: Object,
