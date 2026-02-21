@@ -60,6 +60,10 @@ app.get('/visit', (req, res) => {
   }  
   res.send(`You have visited this page ${req.session.visitCount} times.`);
 }) // route to track the number of visits to the page using sessions (not available in express5) : app.get('/visit', (req, res) => { if (req.session.visitCount) { req.session.visitCount++ } else { req.session.visitCount = 1 } res.send(`You have visited this page ${req.session.visitCount} times.`) })
+app.get('/remove-session',(req,res)=>{
+  req.session.destroy() // destroy the session and remove it from the session store (not available in express5) : req.session.destroy(callback) : we can also pass a callback function to handle any errors that may occur during session destruction (not available in express5) : req.session.destroy((err) => { if (err) { console.error(err) } else { res.send('Session removed successfully') } })
+  res.send('Session removed successfully')
+}) // route to remove the session (not available in express5) : app.get('/remove-session', (req, res) => { req.session.destroy() res.send('Session removed successfully') })
 /* app.get('/remove-cookie',(req,res)=>{
   res.clearCookie('name') // clear a cookie from the response headers (not available in express5) : res.clearCookie('name', { options }) : we can also set options for the cookie like path, domain, etc. (not available in express5) : res.clearCookie('name', { path: '/welcome' })
   res.send('Cookie removed successfully')
