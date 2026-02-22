@@ -13,7 +13,7 @@ const app = express();
 const PORT = 3000;
 app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
 //await connectDB()
-//app.use(express.json());
+app.use(express.json()); //always ad it if we are parsing any json data
 app.use(session({
   secret: 'my-secret-key', // secret key to sign the session ID cookie (not available in express5) : app.use(session({ secret:
   resave: false, // whether to save the session back to the session store even if it was never modified during the request (not available in express5) : app.use(session({ resave: false }))
@@ -64,11 +64,18 @@ res.send('user registered')
 app.post('/login', async(req,res)=>{
 const{username,password}=req.body
 const user= users.find(u=>u.username===username)
-if(!user || password!== user.password){
-return res.send('not authorized')
+if(!user || password!== user.password){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
+return res.send('not authorized') 
 }
-req.session.user= user
+req.session.user= user //save user in session
 res.send('user logged in')
+})
+
+app.get('/dashboard',(req,res)=>{
+  if(!req.session.user){
+    return res.send('unauthorized')
+  }
+  res.send(`welcome ${req.session.user.username}`)
 })
 /* app.get('/visit', (req, res) => {
   if (req.session.visitCount) {
@@ -110,7 +117,7 @@ app.get('/remove-session',(req,res)=>{
     console.error(error);
    res.send(error.message) 
    
-    // we can also send a custom error message to the client (not available in express5) : res.status(500).send({ error: 'An error occurred while creating the person' })
+    /we can also send a custom error message to the client (not available in express5) : res.status(500).send({ error: 'An error occurred while creating the person' })
   }
 }); */
 
