@@ -1,6 +1,6 @@
 import express from 'express';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
+/* import cookieParser from 'cookie-parser';
+import session from 'express-session'; */
 //import { connectDB } from './config/db.js';
 //import {Person} from './models/Person.js';
 //import multer from 'multer';
@@ -11,15 +11,15 @@ const app = express();
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
-app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
+//app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
 //await connectDB()
-app.use(express.json()); //always ad it if we are parsing any json data
+/* app.use(express.json()); //always ad it if we are parsing any json data
 app.use(session({
   secret: 'my-secret-key', // secret key to sign the session ID cookie (not available in express5) : app.use(session({ secret:
   resave: false, // whether to save the session back to the session store even if it was never modified during the request (not available in express5) : app.use(session({ resave: false }))
-  saveUninitialized: false, // whether to save uninitialized sessions to the session store (not available in express5) : app.use(session({ saveUninitialized: false }))
+  saveUninitialized: false, */ // whether to save uninitialized sessions to the session store (not available in express5) : app.use(session({ saveUninitialized: false }))
   // middleware to handle sessions (not available in express5) : app.use(session({ secret: 'my-secret-key', resave: false, saveUninitialized: false })) 
-}))
+//}))
 const users=[]
 
 
@@ -67,15 +67,15 @@ const user= users.find(u=>u.username===username)
 if(!user || password!== user.password){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
 return res.send('not authorized') 
 }
-req.session.user= user //save user in session
-res.send('user logged in')
+/* req.session.user= user //save user in session
+res.send('user logged in') */
 })
 
 app.get('/dashboard',(req,res)=>{
-  if(!req.session.user){
+ /*  if(!req.session.user){
     return res.send('unauthorized')
   }
-  res.send(`welcome ${req.session.user.username}`)
+  res.send(`welcome ${req.session.user.username}`) */
 })
 /* app.get('/visit', (req, res) => {
   if (req.session.visitCount) {
