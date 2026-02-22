@@ -55,11 +55,20 @@ app.get('/', (req, res) => {// create route for the root path
 });
 app.post('/register', async(req,res)=>{
 const{username,password}=req.body
-users.push({
+users.push({//push function adds user with xusername and xpasword in the end of the array user(append)
   username,
   password
 })
 res.send('user registered')
+})
+app.post('/login', async(req,res)=>{
+const{username,password}=req.body
+const user= users.find(u=>u.username===username)
+if(!user || password!== user.password){
+return res.send('not authorized')
+}
+req.session.user= user
+res.send('user logged in')
 })
 /* app.get('/visit', (req, res) => {
   if (req.session.visitCount) {
