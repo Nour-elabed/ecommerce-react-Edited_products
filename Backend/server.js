@@ -20,6 +20,7 @@ app.use(session({
   saveUninitialized: false, // whether to save uninitialized sessions to the session store (not available in express5) : app.use(session({ saveUninitialized: false }))
   // middleware to handle sessions (not available in express5) : app.use(session({ secret: 'my-secret-key', resave: false, saveUninitialized: false })) 
 }))
+const users=[]
 
 
 /* app.use(express.urlencoded({ extended: true }))
@@ -52,14 +53,22 @@ app.get('/', (req, res) => {// create route for the root path
  // res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
   res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
 });
-app.get('/visit', (req, res) => {
+app.post('/register', async(req,res)=>{
+const{username,password}=req.body
+users.push({
+  username,
+  password
+})
+res.send('user registered')
+})
+/* app.get('/visit', (req, res) => {
   if (req.session.visitCount) {
     req.session.visitCount++  // increment the visit count in the session
   } else {
     req.session.visitCount = 1 // initialize the visit count in the session
-  }  
-  res.send(`You have visited this page ${req.session.visitCount} times.`);
-}) // route to track the number of visits to the page using sessions (not available in express5) : app.get('/visit', (req, res) => { if (req.session.visitCount) { req.session.visitCount++ } else { req.session.visitCount = 1 } res.send(`You have visited this page ${req.session.visitCount} times.`) })
+  }   */
+/*   res.send(`You have visited this page ${req.session.visitCount} times.`);
+}) */ // route to track the number of visits to the page using sessions (not available in express5) : app.get('/visit', (req, res) => { if (req.session.visitCount) { req.session.visitCount++ } else { req.session.visitCount = 1 } res.send(`You have visited this page ${req.session.visitCount} times.`) })
 app.get('/remove-session',(req,res)=>{
   req.session.destroy() // destroy the session and remove it from the session store (not available in express5) : req.session.destroy(callback) : we can also pass a callback function to handle any errors that may occur during session destruction (not available in express5) : req.session.destroy((err) => { if (err) { console.error(err) } else { res.send('Session removed successfully') } })
   res.send('Session removed successfully')
