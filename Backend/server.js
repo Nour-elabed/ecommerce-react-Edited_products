@@ -22,7 +22,7 @@ app.use(session({
 //}))
 const users=[]
 // we can use an array to store user data in memory (not recommended for production) : we can also use a database like MongoDB to store user data (not available in express5) : we can create a User model and use it to create, read, update, and delete user data in the database
-
+// we can also use sessions to keep track of logged-in users and their data (not available in express5) : we can use req.session to store user data in the session and access it in subsequent requests (not available in express5) : req.session.user = user
 /* app.use(express.urlencoded({ extended: true }))
 app.use('/uploads', express.static('uploads')) */
  // middleware to parse urlencoded data from the request body (not available in express5) : app.use(express.urlencoded())
