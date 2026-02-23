@@ -7,7 +7,7 @@ import session from 'express-session'; */
 //import { storage } from './config/multer.js';
 //import router from './route.js';
 const app = express();
-
+// configure multer to save uploaded files to the uploads directory with a file size limit of 5MB (not available in express5) : const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }) : we can also set other options for multer like fileFilter to filter files by type (not available in express5) : const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: (req, file, cb) => { if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') { cb(null, true) } else { cb(new Error('Only JPEG and PNG files are allowed'), false) } } })
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
