@@ -87,7 +87,7 @@ app.post('/api/products',( req,res)=>{
   newProduct.id= Date.now() // generate a unique id for the new product (not available in express5) : we can also use a library like uuid to generate unique ids (not available in express5) : newProduct.id = uuid.v4()
   res.status(201).json({message:'Product created successfully',newProduct}) // send a JSON response with a status code of 201 and the new product (not available in express5) : res.status(201).json(newProduct) : we can also set a custom message for the response (not available in express5) : res.status(201).json({ message: 'Product created successfully', product: newProduct })
 })
-
+// UPDATE A PRODUCT
 
 /* app.post('/register', async(req,res)=>{
 const{username,password}=req.body
