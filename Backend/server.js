@@ -1,4 +1,6 @@
 import express from 'express';
+import bcrypt from 'bcrypt.js';
+import jwt from 'jsonwebtoken';
 /* import cookieParser from 'cookie-parser';
 import session from 'express-session'; */
 //import { connectDB } from './config/db.js';
@@ -55,18 +57,22 @@ app.get('/', (req, res) => {// create route for the root path
 });
 app.post('/register', async(req,res)=>{
 const{username,password}=req.body
+const hashedPassword= await bcrypt.hash(password,10) // hash the password using bcrypt with a salt rounds of 10 (not available in express5) : we can also use a different number of salt rounds (not available in express5) : const hashedPassword = await bcrypt.hash(password, 12
 users.push({//push function adds user with xusername and xpasword in the end of the array user(append)
   username,
-  password
+  password:hashedPassword
+  
 })
 res.send('user registered')
 })
 app.post('/login', async(req,res)=>{
 const{username,password}=req.body
 const user= users.find(u=>u.username===username)
-if(!user || password!== user.password){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
+if(!user ||!(await bcrypt.compare(password /*normal password */,user.password))){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
 return res.send('not authorized') 
 }
+const token=jwt.sign({username:user.username},'secretkey',{expiresIn:'1h'}) // generate a JWT token with the username as the payload and a secret key to sign the token (not available in express5) : we can also set an expiration time for the token (not available in express5) : const token = jwt.sign({ username: user.username }, 'secretkey', { expiresIn: '1h' })
+res.json({token}) // send the token to the client in the response body (not available in express5) : res.json({ token }) : we can also send the token in a cookie (not available in express5) : res.cookie('token', token, { httpOnly: true })
 /* req.session.user= user //save user in session
 res.send('user logged in') */
 })
