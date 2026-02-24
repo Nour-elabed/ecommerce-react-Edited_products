@@ -1,5 +1,5 @@
 import express from 'express';
-import bcrypt from 'bcrypt.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 /* import cookieParser from 'cookie-parser';
 import session from 'express-session'; */
@@ -13,9 +13,10 @@ const app = express();
 //const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } })
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
+app.use(express.json()); 
 //app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
 //await connectDB()
-/* app.use(express.json()); //always ad it if we are parsing any json data
+/* //always ad it if we are parsing any json data
 app.use(session({
   secret: 'my-secret-key', // secret key to sign the session ID cookie (not available in express5) : app.use(session({ secret:
   resave: false, // whether to save the session back to the session store even if it was never modified during the request (not available in express5) : app.use(session({ resave: false }))
@@ -78,7 +79,20 @@ res.send('user logged in') */
 })
 
 app.get('/dashboard',(req,res)=>{
- /*  if(!req.session.user){
+  try {
+
+     const token = req.header('authorization') // get the token from the request headers (not available in express5) : we can also get the token from a cookie (not available in express5) : const token = req.cookies.
+  const decodedToken = jwt.verify(token,'secretkey') // verify the token using the same secret key (not available in express5) : we can also handle errors that may occur during token verification (not available in express5) : try { const decoded = jwt.verify(token, 'secretkey') } catch (err) { return res.status(401).send('Invalid token') }
+     if(decodedToken.username){
+    res.send(`welcome ${decodedToken.username} to your dashboard`)
+     } else{
+      res.send('not authorized')
+     }
+  } catch (error) {
+     res.send('not authorized')
+  }
+  /* */
+  /*  if(!req.session.user){
     return res.send('unauthorized')
   }
   res.send(`welcome ${req.session.user.username}`) */
