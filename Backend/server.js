@@ -1,6 +1,6 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+//import bcrypt from 'bcrypt';
+//import jwt from 'jsonwebtoken';
 /* import cookieParser from 'cookie-parser';
 import session from 'express-session'; */
 //import { connectDB } from './config/db.js';
@@ -23,7 +23,7 @@ app.use(session({
   saveUninitialized: false, */ // whether to save uninitialized sessions to the session store (not available in express5) : app.use(session({ saveUninitialized: false }))
   // middleware to handle sessions (not available in express5) : app.use(session({ secret: 'my-secret-key', resave: false, saveUninitialized: false })) 
 //}))
-const users=[]
+//const users=[]
 // we can use an array to store user data in memory (not recommended for production) : we can also use a database like MongoDB to store user data (not available in express5) : we can create a User model and use it to create, read, update, and delete user data in the database
 // we can also use sessions to keep track of logged-in users and their data (not available in express5) : we can use req.session to store user data in the session and access it in subsequent requests (not available in express5) : req.session.user = user
 /* app.use(express.urlencoded({ extended: true }))
@@ -56,7 +56,40 @@ app.get('/', (req, res) => {// create route for the root path
  // res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
   res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
 });
-app.post('/register', async(req,res)=>{
+//GET ALL PRODUCT
+app.get('/api/products',( req,res)=>{
+  
+    const products = [
+      { id: 1, name: 'Laptop', price: 10 },
+      { id: 2, name: 'phone', price: 20 },
+      { id: 3, name: 'tv', price: 30 },  
+    ] ;
+    res.status(200).json({products}) // send the products as a JSON response with a status code of 200 (not available in express5) : res.json(products) : we can also set a custom status code for the response (not available in express5) : res.status(201).json(products)
+})
+//GET A SINGLE PRODUCT
+app.get('/api/products/:id',( req,res)=>{
+  const {id}=req.params
+const products = [
+      { id: 1, name: 'Laptop', price: 10 },
+      { id: 2, name: 'phone', price: 20 },
+      { id: 3, name: 'tv', price: 30 },  
+    ] ;
+    const product = products.find(p => p.id === Number(req.params.id) ) // find the product with the given id (not available in express5) : Product.findById(id)
+    if(product){
+      res.status(200).json({product}) // send the product as a JSON response with a status code of 200 (not available in express5) : res.json(product) : we can also set a custom status code for the response (not available in express5) : res.status(201).json(product)
+    } else{
+      res.status(404).json({message:'Product not found'}) // send a JSON response with a status code of 404 if the product is not found (not available in express5) : res.status(404).json({ message: 'Product not found' })
+    }
+})
+// CREATE NEW PRODUCT
+app.post('/api/products',( req,res)=>{
+  const newProduct=req.body
+  newProduct.id= Date.now() // generate a unique id for the new product (not available in express5) : we can also use a library like uuid to generate unique ids (not available in express5) : newProduct.id = uuid.v4()
+  res.status(201).json({message:'Product created successfully',newProduct}) // send a JSON response with a status code of 201 and the new product (not available in express5) : res.status(201).json(newProduct) : we can also set a custom message for the response (not available in express5) : res.status(201).json({ message: 'Product created successfully', product: newProduct })
+})
+
+
+/* app.post('/register', async(req,res)=>{
 const{username,password}=req.body
 const hashedPassword= await bcrypt.hash(password,10) // hash the password using bcrypt with a salt rounds of 10 (not available in express5) : we can also use a different number of salt rounds (not available in express5) : const hashedPassword = await bcrypt.hash(password, 12
 users.push({//push function adds user with xusername and xpasword in the end of the array user(append)
@@ -66,19 +99,19 @@ users.push({//push function adds user with xusername and xpasword in the end of 
 })
 res.send('user registered')
 })
-app.post('/login', async(req,res)=>{
+/* app.post('/login', async(req,res)=>{
 const{username,password}=req.body
 const user= users.find(u=>u.username===username)
-if(!user ||!(await bcrypt.compare(password /*normal password */,user.password))){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
-return res.send('not authorized') 
+if(!user ||!(await bcrypt.compare(password /*normal password */
+//,user.password))){ //if user doesnt exist or pass doesnt match Without sessions: User logs in Next request → server forgets who they are With sessions: User logs in once Server keeps their identity stored
+/* return res.send('not authorized') 
 }
 const token=jwt.sign({username:user.username},'secretkey',{expiresIn:'1h'}) // generate a JWT token with the username as the payload and a secret key to sign the token (not available in express5) : we can also set an expiration time for the token (not available in express5) : const token = jwt.sign({ username: user.username }, 'secretkey', { expiresIn: '1h' })
 res.json({token}) // send the token to the client in the response body (not available in express5) : res.json({ token }) : we can also send the token in a cookie (not available in express5) : res.cookie('token', token, { httpOnly: true })
 /* req.session.user= user //save user in session
 res.send('user logged in') */
-})
-
-app.get('/dashboard',(req,res)=>{
+//}) */
+/* app.get('/dashboard',(req,res)=>{
   try {
 
      const token = req.header('authorization') // get the token from the request headers (not available in express5) : we can also get the token from a cookie (not available in express5) : const token = req.cookies.
@@ -90,13 +123,13 @@ app.get('/dashboard',(req,res)=>{
      }
   } catch (error) {
      res.send('not authorized')
-  }
+  } */
   /* */
   /*  if(!req.session.user){
     return res.send('unauthorized')
   }
   res.send(`welcome ${req.session.user.username}`) */
-})
+//})
 /* app.get('/visit', (req, res) => {
   if (req.session.visitCount) {
     req.session.visitCount++  // increment the visit count in the session
@@ -114,7 +147,7 @@ app.get('/remove-session',(req,res)=>{
   res.send('Cookie removed successfully')
 }) */
 
-  
+
 /* app.get('/fetch',(req,res)=>{
   console.log(req.cookies) // access cookies from the request headers (not available in express5) : req.cookies : we can also access signed cookies if we use cookie-parser with a secret (not available in express5) : req.signedCookies
   res.send('Cookies received successfully(api called)') 
@@ -208,4 +241,6 @@ app.delete('/users/:id',(req,res)=>{
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+
 });
+
