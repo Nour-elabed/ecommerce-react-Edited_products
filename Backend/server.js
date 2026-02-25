@@ -56,7 +56,31 @@ app.get('/', (req, res) => {// create route for the root path
  // res.cookie('name','express-app',) // set a cookie in the response headers (not available in express5) : res.cookie('name', 'value', { options }) : we can also set options for the cookie like maxAge, httpOnly, secure, etc. (not available in express5) : res.cookie('name', 'value', { maxAge: 900000, httpOnly: true })
   res.send('Hello worldd and welcome!'); // {maxAge : 360000} // set the cookie to expire in 1 hour (not available in express5) : res.cookie('name', 'value', { maxAge: 3600000 }) : we can also set the cookie to be a session cookie that expires when the browser is closed (not available in express5) : res.cookie('name', 'value', { maxAge: 0 })
 });
-//GET ALL PRODUCT
+// SYNCHRONOUS ERROR
+app.get('/sync-error',(req,res)=>{ 
+  try{ 
+  throw new Error('This is a synchronous error') // this will be caught by the default error handler in express and will send a 500 Internal Server Error response to the client (not available in express5) : we can also create a custom error handler to handle errors in a specific way (not available in express5) : app.use((err, req, res, next) => { console.error(err.stack) res.status(500).send('Something went wrong!') })
+  } catch(error){
+    next(error)
+   } // pass the error to the next middleware (error handler)
+  })
+
+// ASYNCHRONOUS ERROR
+app.get('/async-error', async (req, res,next) => {
+  try {
+    await Promise.reject(new Error('This is an asynchronous error')) // this will be caught by the catch block and will send a 500 Internal Server Error response to the client (not available in express5) : we can also create a custom error handler to handle errors in a specific way (not available in express5) : app.use((err, req, res, next) => { console.error(err.stack) res.status(500).send('Something went wrong!') })
+  } catch (error) {
+    next(error)
+  }
+})
+//global error handeling middlewqre
+app.use((err, req, res, next) => {
+  console.error(err.stack) // log the error stack trace to the console
+  res.status(500).json({message:err.message}) // send a JSON response with a status code of 500 and the error message (not available in express5) : res.status(500).json({ message: err.message }) : we can also send a custom error message to the client (not available in express5) : res.status(500).json({ error: 'An error occurred on the server'
+   })
+
+
+/* //GET ALL PRODUCT
 app.get('/api/products',( req,res)=>{
   
     const products = [
@@ -86,7 +110,7 @@ app.post('/api/products',( req,res)=>{
   const newProduct=req.body
   newProduct.id= Date.now() // generate a unique id for the new product (not available in express5) : we can also use a library like uuid to generate unique ids (not available in express5) : newProduct.id = uuid.v4()
   res.status(201).json({message:'Product created successfully',newProduct}) // send a JSON response with a status code of 201 and the new product (not available in express5) : res.status(201).json(newProduct) : we can also set a custom message for the response (not available in express5) : res.status(201).json({ message: 'Product created successfully', product: newProduct })
-})
+}) */
 // UPDATE A PRODUCT
 
 /* app.post('/register', async(req,res)=>{
@@ -138,10 +162,10 @@ res.send('user logged in') */
   }   */
 /*   res.send(`You have visited this page ${req.session.visitCount} times.`);
 }) */ // route to track the number of visits to the page using sessions (not available in express5) : app.get('/visit', (req, res) => { if (req.session.visitCount) { req.session.visitCount++ } else { req.session.visitCount = 1 } res.send(`You have visited this page ${req.session.visitCount} times.`) })
-app.get('/remove-session',(req,res)=>{
+/* app.get('/remove-session',(req,res)=>{
   req.session.destroy() // destroy the session and remove it from the session store (not available in express5) : req.session.destroy(callback) : we can also pass a callback function to handle any errors that may occur during session destruction (not available in express5) : req.session.destroy((err) => { if (err) { console.error(err) } else { res.send('Session removed successfully') } })
   res.send('Session removed successfully')
-}) // route to remove the session (not available in express5) : app.get('/remove-session', (req, res) => { req.session.destroy() res.send('Session removed successfully') })
+}) */ // route to remove the session (not available in express5) : app.get('/remove-session', (req, res) => { req.session.destroy() res.send('Session removed successfully') })
 /* app.get('/remove-cookie',(req,res)=>{
   res.clearCookie('name') // clear a cookie from the response headers (not available in express5) : res.clearCookie('name', { options }) : we can also set options for the cookie like path, domain, etc. (not available in express5) : res.clearCookie('name', { path: '/welcome' })
   res.send('Cookie removed successfully')
