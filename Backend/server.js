@@ -14,6 +14,14 @@ const app = express();
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
 app.use(express.json()); 
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1); // exit the process with a non-zero code to indicate an error    
+})// handle uncaught exceptions to prevent the server from crashing (not available in express5) : we can also handle unhandled promise rejections (not available in express5) : process.on('unhandledRejection', (reason, promise) => { console.error('Unhandled Rejection:', reason) })
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+  process.exit(1); // exit the process with a non-zero code to indicate an error    
+})
 //app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
 //await connectDB()
 /* //always ad it if we are parsing any json data
