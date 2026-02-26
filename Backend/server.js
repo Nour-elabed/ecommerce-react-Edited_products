@@ -14,6 +14,7 @@ const app = express();
  // configure multer to save uploaded files to the uploads directory
 const PORT = 3000;
 app.use(express.json()); 
+// middleware to parse JSON data from the request body (not available in express5) : app.use(express.json()) : we can also use express.urlencoded() middleware to parse urlencoded data from the request body (not available in express5) : app.use(express.urlencoded({ extended: true }))
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
   process.exit(1); // exit the process with a non-zero code to indicate an error    
