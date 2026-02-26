@@ -21,6 +21,7 @@ process.on('uncaughtException', (err) => {
 })// handle uncaught exceptions to prevent the server from crashing (not available in express5) : we can also handle unhandled promise rejections (not available in express5) : process.on('unhandledRejection', (reason, promise) => { console.error('Unhandled Rejection:', reason) })
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection:', reason);
+  // we can also log the promise that caused the unhandled rejection (not available in express5) : console.error('Unhandled Rejection at:', promise)
   process.exit(1); // exit the process with a non-zero code to indicate an error    
 })
 //app.use(cookieParser()) // middleware to parse cookies from the request headers (not available in express5) : app.use(cookieParser())
