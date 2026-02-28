@@ -29,3 +29,5 @@ userSchema.pre("save", async function(next){
 userSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);// to compare the entered password with the hashed password in the database
 } // hashing the password inside the model to make sure that the password is always hashed before saving to the database and also to have a method to compare the entered password with the hashed password in the database
+const User= mongoose.model("User", userSchema);
+export default User;
