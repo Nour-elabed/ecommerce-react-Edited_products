@@ -40,4 +40,8 @@ router.post('/login', async (req,res)=>{
         return res.status(500).json({message: "Internal server error"});
 }       
 })
+
+/* router.get('/profile', async (req,res)=>{
+    res.status(200).json(req.user); // to send a response with the status code 200 and the user object that is stored in the request object by the authentication middleware
+}) */
 export default router;
