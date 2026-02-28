@@ -1,5 +1,6 @@
 import express from "express";
 import user from "../models/userModel.js";
+import {protect} from "../middleware/auth.js";
 //Register route
 const router= express.Router(); // to create a router object to handle the routes related to authentication
 router.post('/register', async (req,res)=>{
@@ -40,8 +41,8 @@ router.post('/login', async (req,res)=>{
         return res.status(500).json({message: "Internal server error"});
 }       
 })
-
-/* router.get('/profile', async (req,res)=>{
+//Profile route
+router.get('/profile',protect, async (req,res)=>{ // this function gives us access to the currently logged in user user
     res.status(200).json(req.user); // to send a response with the status code 200 and the user object that is stored in the request object by the authentication middleware
-}) */
+}) 
 export default router;

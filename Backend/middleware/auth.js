@@ -3,8 +3,16 @@ import jwt from "jsonwebtoken"; // library that creztes and verifies JSON Web To
 export const protect = async (req,res,next) => { // to protect the routes that require authentication by checking if the user is authenticated or not
     let token; // to store the token that is sent by the client in the request header
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){ // to check if the authorization header is present and if it starts with "Bearer" which is the standard for sending JWTs in the authorization header
-       token= req.headers.authorization.split(" ")[1]; // to get the token from the authorization header by splitting the header value and getting the second part which is the token
+       try {
+        token= req.headers.authorization.split(" ")[1]; // to get the token from the authorization header by splitting the header value and getting the second part which is the token
        const decoded= jwt.verify(token.env.JWT_SECRET)
+         req.user= await User.findById(decoded.id).select("-password"); // to get the user from the database using the id that is decoded from the token and to exclude the password field from the user object
+    return next(); // to continue to the next route handler if the user is authenticated
+        
+       } catch (err) {
+            console.error("token verification error failed",err.message);
+            return res.status(401).json({message:"Not authorized, token failed"});
+       }
     }
 
 } 
