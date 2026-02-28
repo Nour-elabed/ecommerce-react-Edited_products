@@ -23,3 +23,21 @@ router.post('/register', async (req,res)=>{
         return res.status(500).json({message: "Internal server error"});
 }
 })
+
+//Login route
+router.post('/login', async (req,res)=>{
+    const {email, password} = req.body; // to get the email and password from the request body(destructure)
+   try{
+    if(!email || !password){ // to check if the email and password are provided or not      
+        return res.status(400).json({message: "Please fill all the fields"});
+    }
+    const userExists = await user.findOne({email}); // to check if the user already exists or not by finding the user with the email in the database
+    if(!userExists || !(await userExists.matchPassword(password))){ // to check if the user exists and if the password is correct or not by using the matchPassword method in the user model
+        return res.status(401).json({message: "Invalid credentials"});
+    }  
+    res.status(200).json({id: userExists._id, username: userExists.username, email: userExists.email,}); // to send a response with the status code 200 and a message and the user object
+   } catch(err){
+        return res.status(500).json({message: "Internal server error"});
+}       
+})
+export default router;
