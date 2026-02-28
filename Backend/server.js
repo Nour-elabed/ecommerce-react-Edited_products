@@ -1,3 +1,4 @@
+import { connectDB } from "./config/db.js";
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();// to have access to the variable inside .env file
@@ -6,6 +7,7 @@ const app= express()
 app.get('/',(req,res)=>{ //req what comes from the client and res what we send to the client
     res.send('Hello World');
 })  
+connectDB();
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
