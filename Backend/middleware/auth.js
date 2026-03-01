@@ -9,7 +9,7 @@ export const protect = async (req,res,next) => { // to protect the routes that r
          req.user= await User.findById(decoded.id).select("-password"); // to get the user from the database using the id that is decoded from the token and to exclude the password field from the user object
     return next(); // to continue to the next route handler if the user is authenticated
         
-       } catch (err) {
+       } catch (err) { // to catch any errors that occur during the token verification process and to return a 401 status code with a message indicating that the user is not authorized
             console.error("token verification error failed",err.message);
             return res.status(401).json({message:"Not authorized, token failed"});
        }
