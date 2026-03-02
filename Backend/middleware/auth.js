@@ -5,7 +5,7 @@ export const protect = async (req,res,next) => { // to protect the routes that r
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){ // to check if the authorization header is present and if it starts with "Bearer" which is the standard for sending JWTs in the authorization header
        try {
         token= req.headers.authorization.split(" ")[1]; // to get the token from the authorization header by splitting the header value and getting the second part which is the token
-       const decoded= jwt.verify(token.env.JWT_SECRET)
+       const decoded= jwt.verify(token,process.env.JWT_SECRET)
          req.user= await User.findById(decoded.id).select("-password"); // to get the user from the database using the id that is decoded from the token and to exclude the password field from the user object
     return next(); // to continue to the next route handler if the user is authenticated
         

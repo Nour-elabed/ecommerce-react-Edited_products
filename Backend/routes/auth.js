@@ -1,5 +1,5 @@
 import express from "express";
-import user from "../models/User.js";
+import User from "../models/User.js";
 import {protect} from "../middleware/auth.js";
 import jwt from "jsonwebtoken"; // library that creztes and verifies JSON Web Tokens (JWTs) for authentication and authorization purposes
 //Register route
@@ -11,18 +11,18 @@ router.post('/register', async (req,res)=>{
     if(!username || !email || !password){ // to check if the username, email and password are provided or not   
         return res.status(400).json({message: "Please fill all the fields"});
     }
-    const userExists = await user.findOne({email}); // to check if the user already exists or not by finding the user with the email in the database
+    const userExists = await User.findOne({email}); // to check if the user already exists or not by finding the user with the email in the database
     if(userExists){
         return res.status(400).json({message: "User already exists"});
     }  
-    const user= await user.create({ // to create a new user in the database with the provided username, email and password
+    const newUser= await User.create({ // to create a new user in the database with the provided username, email and password
         username,
         email,  
         password
     });
-           const token = generateToken(user._id) // to generate a JWT token for the user with the provided id
+           const token = generateToken(newUser._id) // to generate a JWT token for the user with the provided id
 
-    res.status(201).json({id: user._id, username: user.username, email: user.email,token}); // to send a response with the status code 201 and a message and the user object
+    res.status(201).json({id: newUser._id, username: newUser.username, email: newUser.email,token}); // to send a response with the status code 201 and a message and the user object
 
    } catch(err){ 
         return res.status(500).json({message: "Internal server error"});
@@ -36,11 +36,11 @@ router.post('/login', async (req,res)=>{
     if(!email || !password){ // to check if the email and password are provided or not      
         return res.status(400).json({message: "Please fill all the fields"});
     }
-    const userExists = await user.findOne({email}); // to check if the user already exists or not by finding the user with the email in the database
+    const userExists = await User.findOne({email}); // to check if the user already exists or not by finding the user with the email in the database
     if(!userExists || !(await userExists.matchPassword(password))){ // to check if the user exists and if the password is correct or not by using the matchPassword method in the user model
         return res.status(401).json({message: "Invalid credentials"});
     }  
-    const token = generateToken(user._id)
+    const token = generateToken(userExists._id)
     res.status(200).json({id: userExists._id, username: userExists.username, email: userExists.email,token}); // to send a response with the status code 200 and a message and the user object
    } catch(err){
         return res.status(500).json({message: "Internal server error"});

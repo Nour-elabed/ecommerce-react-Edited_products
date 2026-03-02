@@ -23,7 +23,7 @@ userSchema.pre("save", async function(next){
         next();
     }  
     const salt = await bcrypt.genSalt(10);// to generate a salt with 10 rounds
-    this.password = bcrypt.hash(this.password, salt);// to hash the password with the salt
+    this.password = await bcrypt.hash(this.password, salt);// to hash the password with the salt
     next();
 })
 userSchema.methods.matchPassword = async function(enteredPassword){
