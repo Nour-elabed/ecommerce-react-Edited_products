@@ -79,6 +79,15 @@ const Login = ({ setUser }: { setUser: (user: User) => void }) => {
               Login
             </button>
           </form>
+           <p className="text-center text-sm text-gray-500 mt-4">
+            Don't have an account?{' '}
+            <span
+              onClick={() => navigate('/register')}
+              className="text-black font-medium cursor-pointer hover:underline"
+            >
+              Register here
+            </span>
+          </p>
         </div>
       </div>
     </div>

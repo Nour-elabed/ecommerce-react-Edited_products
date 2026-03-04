@@ -18,6 +18,7 @@ type User = {
 
 const App = () => {
   const [user, setUser] = useState<User | null>(null)
+  console.log(user)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -43,7 +44,7 @@ const App = () => {
         <Route path='/shop' element={<Shop />} />
         <Route path='/product' element={<Product />} />
         <Route path='/login' element={<Login setUser={setUser} />} />
-        <Route path='/register' element={<Register  />} />
+        <Route path='/register' element={<Register setUser={setUser} />} />
       </Route>
     </Routes>
   )
