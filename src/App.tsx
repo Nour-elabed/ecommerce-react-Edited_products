@@ -9,6 +9,7 @@ import Register from './_root/pages/Register'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Toaster } from '@/components/ui/sonner'
+import { Spinner } from '@/components/ui/spinner'
 
 type User = {
   _id: string
@@ -20,6 +21,7 @@ type User = {
 const App = () => {
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,9 +37,16 @@ const App = () => {
           setError("Session expired, please log in again")
         }
       }
+      setIsLoading(false)
     }
     fetchUser()
   }, [])
+
+  if (isLoading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Spinner/>
+    </div>
+  )
 
   return (
     <>
