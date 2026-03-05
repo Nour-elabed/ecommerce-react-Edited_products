@@ -8,6 +8,7 @@ import Login from './_root/pages/Login'
 import Register from './_root/pages/Register'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Toaster } from '@/components/ui/sonner'
 
 type User = {
   _id: string
@@ -19,7 +20,6 @@ type User = {
 const App = () => {
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState<string | null>(null)
-  console.log(user)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,7 +32,7 @@ const App = () => {
           setUser(response.data)
         } catch {
           localStorage.removeItem("token")
-            setError("Session expired, please log in again")
+          setError("Session expired, please log in again")
         }
       }
     }
@@ -40,15 +40,18 @@ const App = () => {
   }, [])
 
   return (
-    <Routes>
-      <Route element={<RootLayout  user={user} setUser={setUser} />}>
-        <Route index element={<Home user={user}  error={error}/>} />
-        <Route path='/shop' element={<Shop />} />
-        <Route path='/product' element={<Product />} />
-        <Route path='/login' element={<Login setUser={setUser} />} />
-        <Route path='/register' element={<Register setUser={setUser} />} />
-      </Route>
-    </Routes>
+    <>
+      <Toaster position="top-right" richColors />
+      <Routes>
+        <Route element={<RootLayout user={user} setUser={setUser} />}>
+          <Route index element={<Home user={user} error={error} />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/product' element={<Product />} />
+          <Route path='/login' element={<Login setUser={setUser} />} />
+          <Route path='/register' element={<Register />} />
+        </Route>
+      </Routes>
+    </>
   )
 }
 

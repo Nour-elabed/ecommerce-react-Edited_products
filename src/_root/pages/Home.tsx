@@ -5,6 +5,8 @@ import Recommendations from '@/components/Recommendations'
 import BestSellers from '@/components/BestSellers'
 import Banner from '@/components/Banner'
 import Footer from '@/components/Footer'
+import { useEffect } from 'react'
+import { toast } from 'sonner'
  type User = {
   _id: string
   username: string
@@ -17,6 +19,11 @@ type HomeProps = {
   error: string | null
 }
 const Home = ({user, error}: HomeProps) => {
+   useEffect(() => {
+    if (!user) {
+      toast.info("Please login or register to get the full experience!")
+    }
+  }, [])
   return (
     <div>
         
