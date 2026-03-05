@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route element={<RootLayout />}>
+      <Route element={<RootLayout  user={user} setUser={setUser} />}>
         <Route index element={<Home user={user}  error={error}/>} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/product' element={<Product />} />

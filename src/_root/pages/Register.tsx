@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '@/components/Navbar'
 
 type User = {
   _id: string
@@ -38,7 +37,6 @@ const Register = ({ setUser }: { setUser: (user: User) => void }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       <div className="flex-grow flex items-center justify-center p-4">
         <div className="bg-white p-8 rounded-lg shadow-sm w-full max-w-md border border-gray-50">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Register</h2>
