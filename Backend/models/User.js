@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        unique: true, // to make sure that the username is unique and not duplicated in the database
     },
     email:{
         type: String,
