@@ -71,7 +71,7 @@ const Login = ({ setUser }: { setUser: (user: User) => void }) => {
             </div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading} // Disable button while loading
               className="w-full bg-black hover:bg-gray-800 text-white py-2 px-4 mt-4 rounded-full shadow-xl transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {isLoading ? <><Spinner /> Logging in...</> : "Login"}
