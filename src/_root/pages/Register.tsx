@@ -82,7 +82,7 @@ const Register = () => {
             </button>
           </form>
           <p className="text-center text-sm text-gray-500 mt-4">
-            Already have an account?{' '}  
+            Already have an account?{' '}  // Note: The space is intentional to separate the text from the link
             <span onClick={() => navigate('/login')} className="text-black font-medium cursor-pointer hover:underline"> 
               Login here
             </span>
