@@ -68,7 +68,7 @@ const Register = () => {
                 type="password"
                 name="password"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={handleChange} // Note: The onChange handler is necessary to update the formData state as the user types.
                 className="mt-1 block w-full border border-gray-300 rounded-xl shadow-sm p-2 focus:ring-2 focus:ring-black outline-none"
                 required
               />
