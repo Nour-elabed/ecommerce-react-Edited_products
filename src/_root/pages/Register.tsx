@@ -78,11 +78,11 @@ const Register = () => {
               disabled={isLoading}
               className="w-full bg-black hover:bg-gray-800 text-white py-2 px-4 mt-4 rounded-full shadow-xl transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              {isLoading ? <><Spinner /> Registering...</> : "Register"} // Note: The text "Registering..." is optional and can be removed if you prefer just the spinner without text.
+              {isLoading ? <><Spinner /> Registering...</> : "Register"} 
             </button>
           </form>
           <p className="text-center text-sm text-gray-500 mt-4">
-            Already have an account?{' '}  // Note: The space is intentional to separate the text from the link
+            Already have an account?{' '}  
             <span onClick={() => navigate('/login')} className="text-black font-medium cursor-pointer hover:underline"> 
               Login here
             </span>
