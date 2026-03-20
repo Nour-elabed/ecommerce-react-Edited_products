@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/useCart";
 import { ShoppingCart, X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 
 const TAX_RATE = 0.08; // 8% — adjust as needed
 
 const CartDrawer = () => {
+    const navigate = useNavigate();
     const {
         items,
         isOpen,
@@ -183,7 +185,13 @@ const CartDrawer = () => {
                         </div>
 
                         {/* Actions */}
-                        <button className="w-full bg-black text-white font-semibold py-3 rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 text-sm">
+                        <button
+                            onClick={() => {
+                                closeCart();
+                                navigate('/checkout');
+                            }}
+                            className="w-full bg-black text-white font-semibold py-3 rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 text-sm"
+                        >
                             Proceed to Checkout
                         </button>
                         <div className="flex gap-2">
