@@ -1,6 +1,7 @@
 import ScrollCarousel from "./ui/ScrollCarousel";
 import SlidePost from "./shared/SlidePost";
 import { slidesData } from "./constants/data";
+import { Link } from "react-router-dom";
 
 export const Collections = () => {
   return (
@@ -26,14 +27,14 @@ export const Collections = () => {
             dragFree: false 
           }}
           slides={slidesData.map((slide, index) => (
-            <div key={index} className="px-3 md:px-4 flex">
+            <Link key={index} to="/shop" className="px-3 md:px-4 flex">
               <SlidePost
                 text={slide.text}
                 paragraph={slide.paragraph}
                 link={slide.link}
                 linkText={slide.linkText} 
               />
-            </div>
+            </Link>
           ))}
         />
       </div>
@@ -41,4 +42,4 @@ export const Collections = () => {
   );
 };
 
-export default Collections;
+export default Collections;
