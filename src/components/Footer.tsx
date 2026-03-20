@@ -17,13 +17,15 @@ const Footer: React.FC = () => {
             
             <div className="space-y-3">
               {socialIcons.map((social) => (
-                <a 
+                <a
                   key={social.id}
-                  href="#" 
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 transition-colors group"
                 >
-                  <img 
-                    src={social.icon} 
+                  <img
+                    src={social.icon}
                     alt={social.text}
                     className="h-5 w-5 object-contain"
                   />
