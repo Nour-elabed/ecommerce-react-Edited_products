@@ -33,7 +33,11 @@ router.post("/register", validate(registerSchema), async (req, res, next) => {
             res.status(400);
             throw new Error("Username is already taken");
         }
-        const newUser = await User.create({ username, email, password });
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = await User.create({ username, email, password: hashedPassword });
+
         const token = generateToken(newUser._id);
         res.status(201).json({
             success: true,
@@ -50,10 +54,16 @@ router.post("/login", validate(loginSchema), async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
-        if (!user || !(await user.matchPassword(password))) {
+        if (!user) {
             res.status(401);
             throw new Error("Invalid email or password");
         }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
         const token = generateToken(user._id);
         res.status(200).json({
             success: true,
