@@ -4,21 +4,23 @@ import { slidesData } from "./constants/data";
 
 export const Collections = () => {
   return (
-    <section className="w-full py-16 px-4 sm:mt-32 md:mt-40 md:px-8">
-  <h2 className="flex flex-col items-start md:hidden text-2xl font-bold text-gray-900 mb-8 px-2 ml-8 mt-20">
-    <span>Start exploring.</span>
-  </h2>
+    <section className="w-full py-12 px-4 md:px-8 mt-4 sm:mt-8">
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Mobile Heading */}
+        <h2 className="md:hidden flex flex-col items-start text-3xl font-extrabold text-gray-900 mb-8 pt-4">
+          <span>Start exploring.</span>
+        </h2>
 
-  <div className="hidden md:flex  flex-col items-center mb-12 md:mr-[65vh] lg:mr-[65vh]">
-    <h2 className="text-3xl font-bold text-gray-900">
-      <span>Start exploring. </span>
-      <span className="text-gray-400">
-        Good things are waiting for you
-      </span>
-    </h2>
-  </div>
+        {/* Desktop Heading */}
+        <div className="hidden md:flex flex-col items-start w-full mb-10">
+          <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+            <span>Start exploring. </span>
+            <span className="text-gray-400 font-medium ml-2">
+              Good things are waiting for you
+            </span>
+          </h2>
+        </div>
 
-      <div className="max-w-7xl mx-auto ">
         <ScrollCarousel
           options={{ 
             loop: true,
@@ -41,4 +43,4 @@ export const Collections = () => {
   );
 };
 
-export default Collections;
+export default Collections;

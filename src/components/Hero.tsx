@@ -19,8 +19,9 @@ const Hero = () => {
   ]
 
   return (
-    <section className="w-full h-[700px] pt-16 relative">
-      <EmblaCarousel>
+    <section className="w-full pt-16 relative bg-gray-50/20 pb-8">
+      <div className="w-full h-[550px] md:h-[700px]">
+        <EmblaCarousel>
         {slides.map((img: string, index: number) => (
           <div className="embla__slide" key={index}>
             <img
@@ -55,37 +56,42 @@ const Hero = () => {
           </div>
         ))}
       </EmblaCarousel>
+      </div>
 
-      {/* Stat cards — Desktop: flex row of 3 | Mobile: grid */}
-      <div className="w-full relative z-10 -mt-10 md:-mt-8 pb-10">
+      {/* Stat cards — Desktop: flex row of 3 | Mobile: column */}
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20 mb-16 relative z-20">
         {/* Desktop */}
-        <div className="hidden md:flex items-center justify-center gap-8 mt-4 px-8">
+        <div className="hidden md:grid grid-cols-3 gap-8 w-full">
           {statCards.map(({ icon: Icon, value, label }) => (
-            <Link to="/shop" key={label}>
-              <div className="flex items-center gap-5 bg-white/95 backdrop-blur-md rounded-2xl px-10 py-6 shadow-xl border border-gray-100 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer group">
-                <div className="p-3.5 bg-gray-50 rounded-full group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                  <Icon className="w-7 h-7 text-gray-700 group-hover:text-white transition-colors" />
+            <Link to="/shop" key={label} className="w-full group">
+              <div className="flex items-center justify-center gap-6 bg-white rounded-[2rem] px-8 py-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/80 transform transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] cursor-pointer h-full">
+                <div className="p-5 bg-gray-50/80 rounded-2xl group-hover:bg-black transition-all duration-500 shadow-sm group-hover:shadow-md">
+                  <Icon className="w-8 h-8 text-gray-700 group-hover:text-white transition-colors duration-500" />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-3xl font-extrabold text-gray-900 leading-tight">{value}</p>
-                  <p className="text-sm text-gray-500 font-semibold tracking-wide uppercase mt-0.5">{label}</p>
+                  <p className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-none tracking-tight">{value}</p>
+                  <p className="text-sm lg:text-base text-gray-500 font-bold tracking-widest uppercase mt-3">{label}</p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Mobile: 3-item grid */}
-        <div className="md:hidden grid grid-cols-2 gap-3 mt-12 px-4">
-          {statCards.map(({ icon: Icon, value, label }, idx) => (
-            <Link to="/shop" key={label} className={idx === 2 ? 'col-span-2' : ''}>
-              <div className="flex justify-center items-center gap-3 bg-white/95 backdrop-blur-md rounded-2xl px-4 py-4 shadow-lg border border-gray-100 transform transition-all active:scale-95 cursor-pointer group">
-                <div className="p-2.5 bg-gray-50 rounded-full group-hover:bg-black transition-colors">
-                  <Icon className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors" />
+        {/* Mobile: Stacked Vertical Cards for wider display */}
+        <div className="md:hidden flex flex-col gap-4 w-full">
+          {statCards.map(({ icon: Icon, value, label }) => (
+            <Link to="/shop" key={label} className="w-full group">
+              <div className="flex items-center gap-5 bg-white rounded-2xl px-6 py-6 shadow-sm border border-gray-100 transform transition-all active:scale-[0.98] cursor-pointer w-full">
+                <div className="p-4 bg-gray-50 rounded-xl group-active:bg-black transition-colors">
+                  <Icon className="w-6 h-6 text-gray-700 group-active:text-white transition-colors" />
                 </div>
-                <div>
-                  <p className="text-xl font-extrabold text-gray-900 leading-none">{value}</p>
-                  <p className="text-[11px] font-semibold text-gray-500 uppercase mt-0.5">{label}</p>
+                <div className="flex-1">
+                  <p className="text-3xl font-extrabold text-gray-900 leading-none">{value}</p>
+                  <p className="text-[12px] font-bold text-gray-500 tracking-wider uppercase mt-1.5">{label}</p>
+                </div>
+                {/* Arrow indicator for clear clickability */}
+                <div className="text-gray-300 group-active:text-gray-900 transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
               </div>
             </Link>

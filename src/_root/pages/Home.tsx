@@ -26,16 +26,6 @@ const Home = () => {
         <BestSellers/>
         <Banner/>
         <Footer/>
-        {user ? (
-          <div>
-            <h2>{user.username}</h2>
-            <p>{user.email}</p>
-
-          </div>
-        ): <div>
-
-        </div>
-      }
     </div>
   )
 }

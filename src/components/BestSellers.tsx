@@ -4,24 +4,22 @@ import ScrollCarousel from "./ui/ScrollCarousel"; // Your existing untouched car
 import ProductSlideCard from "./shared/ProductSlideCard";
 import { productSlides } from "./constants/ProductData";
 
-const Recommendations: React.FC = () => {
+const BestSellers: React.FC = () => {
   return (
-    <section className="w-full py-16 px-4 md:mt-2 md:px-8">
-      {/* Mobile heading */}
-      <h2 className="flex flex-col items-start md:hidden text-2xl font-bold text-gray-900 px-2 ml-6 mb-8">
-        <span>Best Sellers.</span>
-      </h2>
-
-      {/* Desktop heading */}
-      <div className="hidden md:flex flex-col items-center mb-12 md:mr-[65vh] lg:mr-[82vh]">
-        <h2 className="text-3xl font-bold text-gray-900">
-          <span>Best Sellers. </span>
-          <span className="text-gray-400">Best selling of the month</span>
+    <section className="w-full py-16 px-4 md:px-8 mt-4">
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Mobile heading */}
+        <h2 className="md:hidden flex flex-col items-start text-3xl font-extrabold text-gray-900 mb-8 pt-4">
+          <span>Best Sellers.</span>
         </h2>
-      </div>
 
-      {/* Carousel */}
-      <div className="max-w-7xl mx-auto">
+        {/* Desktop heading */}
+        <div className="hidden md:flex flex-col items-start w-full mb-10">
+          <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+            <span>Best Sellers. </span>
+            <span className="text-gray-400 font-medium ml-2">Best selling of the month</span>
+          </h2>
+        </div>
         <ScrollCarousel
           slides={productSlides.map((product) => (
             <div key={product.id} className="scroll-carousel__slide">
@@ -41,4 +39,4 @@ const Recommendations: React.FC = () => {
   );
 };
 
-export default Recommendations;
+export default BestSellers;
